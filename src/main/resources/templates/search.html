@@ -1,0 +1,61 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- Quill -->
+	<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+	<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+	
+    <title>Notes Search Result</title>
+  </head>
+  <body> 
+	<nav th:replace="frags :: menu (activePage='index')"></nav>
+	<br/>
+	<div class="text-center">
+	<p th:text="|Notes found: ${pages.totalItems} (${pages.totalPages} pages)|">Notes found: 5 (2 pages)</p>
+	</div>
+	<!-- pagination -->
+	<nav aria-label="Note navigation" th:object="${pages}" th:unless="${pages.totalPages} == 0">
+	  <ul class="pagination justify-content-center">
+	    <!-- prev -->
+	    <li class="page-item" th:classappend="*{prevPage.isWithHref()} == false ? disabled">
+	      <a class="page-link" th:href="@{/search/(keyword=*{searchCriteria.text}, category=*{searchCriteria.category}, page=*{prevPage.id})}">Previous</a>
+	    </li>
+	    <div th:each="pg,i : *{pageList}">
+	      <li class="page-item" th:classappend="${pg.isWithHref()} == false ? disabled"><a class="page-link" th:href="@{/search/(keyword=*{searchCriteria.text}, category=*{searchCriteria.category}, page=${pg.id})}" th:text="${pg.text}">1</a></li>
+	    </div>
+	    <!-- next -->
+	    <li class="page-item" th:classappend="*{nextPage.isWithHref()} == false ? disabled">
+	      <a class="page-link" th:href="@{/search/(keyword=*{searchCriteria.text}, category=*{searchCriteria.category}, page=*{nextPage.id})}">Next</a>
+	    </li>
+	  </ul>
+	</nav>
+
+	<div class="container-fluid overflow-hidden" th:object="${items}"  th:unless="${pages.totalPages} == 0">
+	  <div class="row gy-3 py-3" th:each="item,i : *{noteList}">
+	    <div>
+	      <div class="p-3 border bg-light">
+	        <a class="navbar-brand" th:href="@{/view(id=${item.id})}">
+	         <h1 class="display-6" th:text="${item.name}">Name</h1>
+	        </a>
+	        <span class="badge rounded-pill bg-info text-dark" th:text="${item.category}">Note Category</span>
+	        <a class="navbar-brand" th:href="@{/edit(id=${item.id})}">
+	         <h3 class="text-warning pt-3">Edit</h3>
+	        </a>
+		    <div class="p-3" th:utext="${item.htmlSnippet}"> Snippet </div>
+		  </div>
+	    </div>
+	  </div> <!-- row -->
+	</div>
+
+	<footer th:replace="frags :: copy"></footer>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  </body>
+</html>

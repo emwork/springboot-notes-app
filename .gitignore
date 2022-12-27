@@ -1,0 +1,14 @@
+target/
+db/
+**/*.log
+
+.classpath
+.project
+.settings/
+
+.idea
+*.iws
+*.iml
+*.ipr
+*.pdf
+
