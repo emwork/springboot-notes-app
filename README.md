@@ -13,7 +13,7 @@ The app can be accessed at localhost:8081, with the default user id "user" and p
 
 1. Main class is NotesApplication
 
-2. Spring security is set up to use in-memory authentication for simplicity since this is a demo only. User id is XXX, password is PPP
+2. Spring security is set up to use in-memory authentication for simplicity since this is a demo only. User id is user, password is pass
 
 3. Pick a profile to run:
 -Dspring.profiles.active=windows
